@@ -31,7 +31,8 @@ jobs:
         with:
           context: ./movieticket-client
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/movieticket-frontend:latest
+          # Замінили змінну на ingri109 (тільки маленькі літери)
+          tags: ${{ env.REGISTRY }}/ingri109/movieticket-frontend:latest
 
       # Збирання Основного API
       - name: Build and push Backend API
@@ -40,7 +41,8 @@ jobs:
           context: ./movieticket-server
           file: ./movieticket-server/MovieTicket/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/movieticket-api:latest
+          # Замінили змінну на ingri109 (тільки маленькі літери)
+          tags: ${{ env.REGISTRY }}/ingri109/movieticket-api:latest
 
       # Збирання Email Воркера
       - name: Build and push Email Worker
@@ -49,4 +51,5 @@ jobs:
           context: ./movieticket-server
           file: ./movieticket-server/MovieTicket.EmailWorker/Dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ github.repository_owner }}/movieticket-email-worker:latest
+          # Замінили змінну на ingri109 (тільки маленькі літери)
+          tags: ${{ env.REGISTRY }}/ingri109/movieticket-email-worker:latest
