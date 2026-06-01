@@ -1,0 +1,8 @@
+For start use: 
+docker compose up -d
+If you want check all containers use:
+    docker ps -a
+For migrations use:
+    dotnet ef database update
+For run add migrations use:
+    dotnet ef migrations add NAMEMIGRATION

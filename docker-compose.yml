@@ -1,0 +1,73 @@
+version: '3.8'
+
+services:
+  # 1. База даних
+  db:
+    image: postgres:15-alpine
+    container_name: ticket_postgres
+    environment:
+      POSTGRES_USER: ticket_user
+      POSTGRES_PASSWORD: superpassword123
+      POSTGRES_DB: ticket_booking_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - movieticket-network
+
+  # 2. Основний .NET API
+  backend:
+    build:
+      context: ./movieticket-server
+      dockerfile: MovieTicket/Dockerfile
+    container_name: ticket_backend
+    ports:
+      - "5016:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=ticket_booking_db;Username=ticket_user;Password=superpassword123
+    depends_on:
+      - db
+    networks:
+      - movieticket-network
+
+  # 3. Email Worker (.NET Фоновий сервіс)
+  email-worker:
+    build:
+      context: ./movieticket-server
+      dockerfile: MovieTicket.EmailWorker/Dockerfile
+    container_name: ticket_email_worker
+    environment:
+      - DOTNET_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=ticket_booking_db;Username=ticket_user;Password=superpassword123
+      # Якщо у тебе є змінні для SMTP (Mailgun/SendGrid) або RabbitMQ, додай їх сюди:
+      # - Smtp__Host=smtp.example.com
+      # - Smtp__Password=secret
+    depends_on:
+      - db
+    networks:
+      - movieticket-network
+
+  # 4. Next.js Фронтенд
+  frontend:
+    build:
+      context: ./movieticket-client
+      dockerfile: Dockerfile
+    container_name: ticket_frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - BACKEND_URL=http://backend:8080/api 
+      - NEXT_PUBLIC_BACKEND_URL=http://localhost:5016/api
+    depends_on:
+      - backend
+    networks:
+      - movieticket-network
+
+volumes:
+  pgdata:
+
+networks:
+  movieticket-network:
+    driver: bridge
