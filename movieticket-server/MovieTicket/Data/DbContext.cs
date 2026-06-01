@@ -16,4 +16,15 @@ public class AppDbContext : DbContext
     public DbSet<Ticket> Tickets { get; set; }
     public DbSet<Seat> Seats { get; set; }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+        
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<Movie>().ToTable("Movies");
+        modelBuilder.Entity<Hall>().ToTable("Halls");
+        modelBuilder.Entity<Session>().ToTable("Sessions");
+        modelBuilder.Entity<Ticket>().ToTable("Tickets");
+        modelBuilder.Entity<Seat>().ToTable("Seats");
+    }
 }
