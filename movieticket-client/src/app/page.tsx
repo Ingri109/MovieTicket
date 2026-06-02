@@ -6,9 +6,9 @@ import { Footer } from "@/components/footer";
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#050505]">
-      <Navbar />
+      {/* <Navbar /> */}
       <HeroSection />
-      <UpcomingSessions />
+      {/* <UpcomingSessions /> */}
       <Footer />
     </main>
   );
