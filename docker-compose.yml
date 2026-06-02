@@ -49,22 +49,6 @@ services:
     networks:
       - movieticket-network
 
-  # 4. Next.js Фронтенд
-  frontend:
-    build:
-      context: ./movieticket-client
-      dockerfile: Dockerfile
-    container_name: ticket_frontend
-    ports:
-      - "3000:3000"
-    environment:
-      - BACKEND_URL=http://backend:8080/api 
-      - NEXT_PUBLIC_BACKEND_URL=http://localhost:5016/api
-    depends_on:
-      - backend
-    networks:
-      - movieticket-network
-
 volumes:
   pgdata:
 
