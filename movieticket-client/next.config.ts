@@ -1,22 +1,20 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'standalone',
   reactCompiler: true,
 
-  // 1. Автоматично підставляємо безпечне значення для process.env.BACKEND_URL
-  // У коді твоїх fetch-запитів воно перетвориться на "/api-proxy" і не спалить IP в браузері
+  // Автоматично підставляємо безпечне значення для коду запитів
   env: {
     BACKEND_URL: '/api-proxy',
   },
 
-  // 2. Налаштовуємо маскування (проксі) на сервері Vercel
+  // Налаштовуємо маскування на сервері Vercel
   async rewrites() {
     return [
       {
-        // Коли фронтенд робитиме запит на /api-proxy/api/..., Vercel тихо перенаправить його на Azure
         source: '/api-proxy/api/:path*',
-        destination: `${process.env.REAL_AZURE_URL}/api/:path*`,
+        // Використовуємо логічне АБО, щоб у разі відсутності змінної збірка не падала
+        destination: `${process.env.REAL_AZURE_URL || 'http://localhost:5016'}/api/:path*`,
       },
     ];
   },
