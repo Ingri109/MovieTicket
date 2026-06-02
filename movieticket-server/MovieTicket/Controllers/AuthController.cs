@@ -40,14 +40,23 @@ public class AuthController : ControllerBase
     [HttpGet("confirm-email")]
     public async Task<IActionResult> ConfirmEmail([FromQuery] string token)
     {
+        var frontendAuthUrl = "https://movie-ticket-tau.vercel.app/auth";
+
         if (string.IsNullOrWhiteSpace(token))
-            return BadRequest(new { message = "Токен відсутній." });
+        {
+            // Перенаправляємо з помилкою
+            return Redirect($"{frontendAuthUrl}?error=missing_token");
+        }
 
         var success = await _authService.ConfirmEmailAsync(token);
         
         if (!success)
-            return BadRequest(new { message = "Недійсний або прострочений токен підтвердження." });
+        {
+            // Перенаправляємо з помилкою валідації
+            return Redirect($"{frontendAuthUrl}?error=invalid_token");
+        }
 
-        return Ok(new { message = "Електронну пошту успішно підтверджено! Тепер ви можете увійти." });
+        // Успішне підтвердження: перенаправляємо на логін з прапорцем успіху
+        return Redirect($"{frontendAuthUrl}?verified=true");
     }
 }

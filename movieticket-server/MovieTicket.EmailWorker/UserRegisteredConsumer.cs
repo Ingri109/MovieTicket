@@ -19,9 +19,8 @@ public class UserRegisteredConsumer : IConsumer<UserRegisteredEvent>
     {
         var data = context.Message;
         
-        // Формуємо посилання для підтвердження 
-        // ВАЖЛИВО: Заміни порт 5016 на той, на якому працює твій основний API
-        var confirmationLink = $"http://localhost:5016/api/auth/confirm-email?token={data.VerificationToken}";
+        var apiUrl = _config["ApiUrl"] ?? "https://movieticket-api.swedencentral.cloudapp.azure.com";
+        var confirmationLink = $"{apiUrl}/api/auth/confirm-email?token={data.VerificationToken}";
 
         // 1. Створюємо оболонку листа
         var email = new MimeMessage();
