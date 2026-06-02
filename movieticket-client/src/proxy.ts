@@ -3,7 +3,6 @@ import type { NextRequest } from 'next/server';
 
 // Повертаємо назву 'proxy', яку чітко очікує Next.js
 export function proxy(request: NextRequest) {
-  return NextResponse.next();
   const token = request.cookies.get('jwt_token')?.value;
   const { pathname } = request.nextUrl;
 
