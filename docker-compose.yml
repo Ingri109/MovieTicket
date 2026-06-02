@@ -40,7 +40,7 @@ services:
     container_name: ticket_email_worker
     environment:
       - DOTNET_ENVIRONMENT=Production
-      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=ticket_booking_db;Username=ticket_user;Password=superpassword123
+      - ConnectionStrings__DefaultConnection=Host=aws-0-eu-west-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.uqvexdrvnacrrmmbphry;Password=nji9)OKM,lp-;SSL Mode=Require;Trust Server Certificate=true;
       # Якщо у тебе є змінні для SMTP (Mailgun/SendGrid) або RabbitMQ, додай їх сюди:
       # - Smtp__Host=smtp.example.com
       # - Smtp__Password=secret
