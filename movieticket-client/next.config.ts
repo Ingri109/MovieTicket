@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // output: 'standalone',
+  output: 'standalone',
   reactCompiler: true,
 
   // Додаємо ОБИДВІ змінні сюди. 
