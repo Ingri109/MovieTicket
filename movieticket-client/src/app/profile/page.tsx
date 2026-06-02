@@ -15,8 +15,11 @@ import { Footer } from "@/components/footer";
 import { logoutAction } from "@/app/action/auth";
 import { getUserProfileAndTickets } from "@/app/action/profile";
 
-// Додаємо базовий URL сервера для картинок
-const BASE_SERVER_URL = "http://127.0.0.1:5016";
+const BASE_SERVER_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+const BACKEND_URL = `${process.env.NEXT_PUBLIC_BACKEND_URL}/api`;
+if (!BACKEND_URL) {
+  console.warn("Warning: BACKEND_URL is not defined in environment variables!");
+}
 
 type TabType = "tickets" | "settings" | "history";
 

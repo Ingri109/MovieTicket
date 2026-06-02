@@ -3,17 +3,20 @@ const nextConfig = {
   output: 'standalone',
   reactCompiler: true,
 
-  // Автоматично підставляємо безпечне значення для коду запитів
+  // Додаємо ОБИДВІ змінні сюди. 
+  // Тепер Next.js автоматично підмінить їх у коді на безпечний відносний шлях.
   env: {
     BACKEND_URL: '/api-proxy',
+    NEXT_PUBLIC_BACKEND_URL: '/api-proxy',
   },
 
-  // Налаштовуємо маскування на сервері Vercel
+  // Налаштовуємо маскування (проксі) на серверах Vercel
   async rewrites() {
     return [
       {
+        // Оскільки у твоєму коді додається "/api", цей запит перетвориться на /api-proxy/api/...
+        // Vercel перехопить його і тихо перенаправить на твій реальний Azure
         source: '/api-proxy/api/:path*',
-        // Використовуємо логічне АБО, щоб у разі відсутності змінної збірка не падала
         destination: `${process.env.REAL_AZURE_URL || 'http://localhost:5016'}/api/:path*`,
       },
     ];
