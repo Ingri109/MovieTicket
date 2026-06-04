@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 
 // 1. Формуємо базові URL
 const BASE_SERVER_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+console.log(BASE_SERVER_URL);
 // Використовуємо NEXT_PUBLIC_BACKEND_URL, оскільки це клієнтський компонент, який робить fetch напряму
 const BACKEND_API_URL = `${BASE_SERVER_URL}/api`;
 
