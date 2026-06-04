@@ -56,6 +56,7 @@ export async function loginAction(formData: Record<string, string>) {
 
 // 2. Дія для реєстрації
 export async function registerAction(formData: Record<string, string>) {
+  console.log(BACKEND_URL)
   try {
     const response = await fetch(`${BACKEND_URL}/auth/register`, {
       method: "POST",
