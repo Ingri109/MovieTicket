@@ -26,7 +26,7 @@ services:
       - "5016:8080"
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
-      - ConnectionStrings__DefaultConnection=Host=aws-0-eu-west-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.uqvexdrvnacrrmmbphry;Password=nji9)OKM,lp-;SSL Mode=Require;Trust Server Certificate=true;
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
     depends_on:
       - db
     networks:
@@ -38,12 +38,10 @@ services:
       context: ./movieticket-server
       dockerfile: MovieTicket.EmailWorker/Dockerfile
     container_name: ticket_email_worker
+
     environment:
-      - DOTNET_ENVIRONMENT=Production
-      - ConnectionStrings__DefaultConnection=Host=aws-0-eu-west-1.pooler.supabase.com;Port=5432;Database=postgres;Username=postgres.uqvexdrvnacrrmmbphry;Password=nji9)OKM,lp-;SSL Mode=Require;Trust Server Certificate=true;
-      # Якщо у тебе є змінні для SMTP (Mailgun/SendGrid) або RabbitMQ, додай їх сюди:
-      # - Smtp__Host=smtp.example.com
-      # - Smtp__Password=secret
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=${DB_CONNECTION_STRING}
     depends_on:
       - db
     networks:
