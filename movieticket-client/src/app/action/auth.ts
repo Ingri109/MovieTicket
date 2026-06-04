@@ -31,7 +31,7 @@ export async function loginAction(formData: Record<string, string>) {
       return { success: false, error: errorData.message || "Невірний email або пароль" };
     }
 
-    const data = await response.json(); 
+    const data = await response.json();
     const token = data.token; // Очікуємо, що твій бекенд повертає { "token": "ey..." }
 
     if (token) {
@@ -61,9 +61,10 @@ export async function registerAction(formData: Record<string, string>) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        username: formData.username,
+        name: formData.username,
         email: formData.email,
         password: formData.password,
+        confirmPassword: formData.password
       }),
     });
 
