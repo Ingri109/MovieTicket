@@ -40,9 +40,7 @@ builder.Services.AddQuartz(q =>
     q.AddTrigger(opts => opts
         .ForJob(jobKey)
         .WithIdentity("DatabaseCleanupJob-Trigger")
-        // Крон-вираз: запускати щодня о 3 годині ночі ("0 0 3 * * ?")
-        // Для тесту, щоб побачити роботу прямо зараз, поставимо: запускати кожні 10 секунд -> "0/10 * * * * ?"
-        .WithCronSchedule("0/10 * * * * ?")); 
+        .WithCronSchedule("0 0 2 * * ?"));
 });
 
 // Додаємо Quartz як фонову службу, що стартує разом з додатком

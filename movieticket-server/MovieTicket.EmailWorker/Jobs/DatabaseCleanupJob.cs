@@ -22,7 +22,7 @@ public class DatabaseCleanupJob : IJob
         // Знаходимо всіх юзерів, які не підтвердили Email і зареєструвалися більше 24 годин тому
         // (Тут припущено, що в моделі User є поле типу CreatedAt)
         var unconfirmedUsers = await dbContext.Users
-            .Where(u => !u.IsEmailConfirmed /* && u.CreatedAt < DateTime.UtcNow.AddDays(-1) */)
+            .Where(u => !u.IsEmailConfirmed  && u.CreatedAt < DateTime.UtcNow.AddDays(-1))
             .ToListAsync();
 
         if (unconfirmedUsers.Any())

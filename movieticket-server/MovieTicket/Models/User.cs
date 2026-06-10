@@ -9,4 +9,5 @@ public class User
     public UserRole Role { get; set; } = UserRole.Customer;
     public bool IsEmailConfirmed { get; set; } = false;
     public string? VerificationToken { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

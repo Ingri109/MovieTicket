@@ -73,7 +73,7 @@ builder.Services.AddCors(options =>
     });
 });
 // Реєстрація фонового завдання
-// builder.Services.AddHostedService<SessionGeneratorBackgroundService>();
+builder.Services.AddHostedService<SessionGeneratorBackgroundService>();
 var app = builder.Build();
 
 app.UseCors("AllowNextJs");

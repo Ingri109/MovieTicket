@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 
+const BACKEND_URL = `${process.env.BACKEND_URL}/api`;
+
 export async function POST(request: NextRequest) {
   // 1. Дістаємо токен прямо з кукі, які Next.js 100% отримає від браузера
   const token = request.cookies.get("jwt_token")?.value;
@@ -14,7 +16,7 @@ export async function POST(request: NextRequest) {
 
     // 3. Робимо сервер-сервер запит до твого C# бекенду
     // Тут CORS не існує, і ми залізобетонно передаємо токен в Header!
-    const backendResponse = await fetch("http://localhost:5016/api/ticket/book", {
+    const backendResponse = await fetch(`${BACKEND_URL}/ticket/book`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -26,7 +28,7 @@ export async function POST(request: NextRequest) {
     if (!backendResponse.ok) {
       const errorData = await backendResponse.json().catch(() => ({}));
       return NextResponse.json(
-        { message: errorData.message || "Помилка сервера бекенду" },
+        { message: errorData.message || "Backend server error" },
         { status: backendResponse.status }
       );
     }

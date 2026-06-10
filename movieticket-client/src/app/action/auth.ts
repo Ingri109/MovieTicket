@@ -56,6 +56,7 @@ export async function loginAction(formData: Record<string, string>) {
 
 // 2. Дія для реєстрації
 export async function registerAction(formData: Record<string, string>) {
+  console.log("🚀 SENDING REQUEST TO:", `${BACKEND_URL}/auth/register`);
   try {
     const response = await fetch(`${BACKEND_URL}/auth/register`, {
       method: "POST",
@@ -69,8 +70,14 @@ export async function registerAction(formData: Record<string, string>) {
     });
 
     if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      return { success: false, error: errorData.message || "Registration error. This email may already exist." };
+      // 1. Читаємо відповідь як звичайний текст, щоб нічого не зламалося
+      const rawText = await response.text(); 
+      
+      // 2. Виводимо статус і сам текст помилки в консоль Vercel
+      console.error("🔥 RAW ERROR FROM AZURE | Status:", response.status, "Body:", rawText);
+      
+      // 3. Виводимо шматок помилки прямо на екран сайту, щоб ти одразу її побачив
+      return { success: false, error: `Помилка сервера: ${rawText.substring(0, 100)}` };
     }
 
     return { success: true };

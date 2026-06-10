@@ -39,6 +39,7 @@ public class AuthService: IAuthService
         user.Role = UserRole.Customer;
         user.IsEmailConfirmed = false;
         user.VerificationToken = verificationToken;
+        user.CreatedAt = DateTime.UtcNow;
         
         _context.Users.Add(user);
         await _context.SaveChangesAsync();
@@ -48,7 +49,7 @@ public class AuthService: IAuthService
             Email = user.Email,
             VerificationToken = verificationToken
         };
-        await _publishEndpoint.Publish(emailEvent);
+        // await _publishEndpoint.Publish(emailEvent);
 
         return (true, "Реєстрація успішна! Перевірте вашу пошту для підтвердження.");
     }
