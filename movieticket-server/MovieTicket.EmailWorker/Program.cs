@@ -18,12 +18,14 @@ builder.Services.AddMassTransit(x =>
 
     x.UsingRabbitMq((context, cfg) =>
     {
-        // 2. Встав сюди те саме посилання, що й в основному API
-        var rabbitUrl = "amqps://eseqtjzc:tbDT4cq2FRGi7TpjJkgtEsVOLXoYq1vx@kangaroo.rmq.cloudamqp.com/eseqtjzc"; 
-        
-        cfg.Host(new Uri(rabbitUrl));
+        // Тепер він чесно братиме URL з .env файлу через конфіг!
+        var rabbitUrl = builder.Configuration["RabbitMq:Url"]; 
+    
+        if (!string.IsNullOrEmpty(rabbitUrl))
+        {
+            cfg.Host(new Uri(rabbitUrl));
+        }
 
-        // 3. Цей рядок автоматично створює черги для всіх зареєстрованих Consumer-ів
         cfg.ConfigureEndpoints(context);
     });
 });
