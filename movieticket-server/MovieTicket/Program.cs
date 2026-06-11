@@ -76,6 +76,16 @@ builder.Services.AddCors(options =>
 builder.Services.AddHostedService<SessionGeneratorBackgroundService>();
 var app = builder.Build();
 
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (string.IsNullOrEmpty(connectionString))
+{
+    Console.WriteLine("\n[DEBUG-CONFIG] ❌ Рядок підключення ПУСТИЙ (NULL)!");
+}
+else
+{
+    Console.WriteLine($"\n[DEBUG-CONFIG] ✅ Рядок підключення знайдено! Довжина: {connectionString.Length} символів.");
+}
+
 app.UseCors("AllowNextJs");
 if (app.Environment.IsDevelopment())
 {
