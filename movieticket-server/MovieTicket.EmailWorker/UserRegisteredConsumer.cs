@@ -49,7 +49,7 @@ public class UserRegisteredConsumer : IConsumer<UserRegisteredEvent>
         {
             var port = int.Parse(_config["SmtpSettings:Port"]!);
             
-            await smtp.ConnectAsync(_config["SmtpSettings:Host"], port, MailKit.Security.SecureSocketOptions.StartTlsWhenAvailable);
+            await smtp.ConnectAsync(_config["SmtpSettings:Host"], port, MailKit.Security.SecureSocketOptions.StartTls);
             await smtp.AuthenticateAsync(_config["SmtpSettings:Username"], _config["SmtpSettings:Password"]);
             await smtp.SendAsync(email);
             await smtp.DisconnectAsync(true);

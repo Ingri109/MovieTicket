@@ -49,7 +49,7 @@ public class AuthService: IAuthService
             Email = user.Email,
             VerificationToken = verificationToken
         };
-        // await _publishEndpoint.Publish(emailEvent);
+        await _publishEndpoint.Publish(emailEvent);
 
         return (true, "Реєстрація успішна! Перевірте вашу пошту для підтвердження.");
     }
