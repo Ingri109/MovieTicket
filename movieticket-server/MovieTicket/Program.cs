@@ -64,12 +64,12 @@ builder.Services.AddMassTransit(x =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowNextJs", policy =>
+    options.AddPolicy("ProductionCors", policy =>
     {
-        policy.WithOrigins("http://localhost:3000")
+        policy.WithOrigins("https://movie-ticket-tau.vercel.app") 
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials(); // Важливо, якщо будемо використовувати Cookies для токенів
+            .AllowCredentials(); 
     });
 });
 // Реєстрація фонового завдання
@@ -86,7 +86,7 @@ else
     Console.WriteLine($"\n[DEBUG-CONFIG] ✅ Рядок підключення знайдено! Довжина: {connectionString.Length} символів.");
 }
 
-app.UseCors("AllowNextJs");
+app.UseCors("ProductionCors");
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

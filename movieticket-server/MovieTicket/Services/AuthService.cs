@@ -31,7 +31,7 @@ public class AuthService: IAuthService
     public async Task<(bool Success, string Message)> RegisterAsync(UserRegisterDto registerDto)
     {
         if (await _context.Users.AnyAsync(u => u.Email == registerDto.Email))
-            return (false, "Користувач з таким email вже існує."); // Користувач вже існує
+            return (false, "A user with this email already exists."); // Користувач вже існує
 
         var verificationToken = Guid.NewGuid().ToString("N");
         var user = _mapper.Map<User>(registerDto);
@@ -51,7 +51,7 @@ public class AuthService: IAuthService
         };
         await _publishEndpoint.Publish(emailEvent);
 
-        return (true, "Реєстрація успішна! Перевірте вашу пошту для підтвердження.");
+        return (true, "Registration successful! Check your email for confirmation.");
     }
 
     public async Task<(bool Success, string? Token, string? ErrorMessage)> LoginAsync(string email, string password)
@@ -59,7 +59,7 @@ public class AuthService: IAuthService
         var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
         if (user == null || !BCrypt.Net.BCrypt.Verify(password, user.PasswordHash)) 
-            return (false, null, "Невірний email або пароль.");
+            return (false, null, "Incorrect email or password.");
         
         if (!user.IsEmailConfirmed)
             return (false, null, "Ваш обліковий запис не активовано. Будь ласка, перевірте електронну пошту.");

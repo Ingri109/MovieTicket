@@ -108,7 +108,7 @@ public class SessionService : ISessionService
     {
         // 1. Знаходимо сеанс (потрібен, щоб дізнатися HallId та базову ціну)
         var session = await _context.Sessions.FindAsync(sessionId);
-        if (session == null) throw new Exception("Сеанс не знайдено");
+        if (session == null) throw new Exception("Session not found");
 
         // 2. Беремо всі фізичні місця цього залу
         var allSeats = await _context.Seats
